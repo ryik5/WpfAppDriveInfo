@@ -12,7 +12,7 @@
             <ColumnDefinition Width="100" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <uc:LeftPanel Grid.Column="0" />
+        <uc:LeftPanel  Grid.Column="0" />
         <uc:RightPanel Grid.Column="1" />
 
     </Grid>

@@ -5,8 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp4.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             >
+    <UserControl.Resources>
+
+        <Style x:Key="FontTextBox">
+            <Style.Setters>
+                <Setter Property="Control.FontFamily" Value="Calibri"></Setter>
+                <Setter Property="Control.FontSize" Value="15"></Setter>
+                <Setter Property="TextBox.VerticalContentAlignment" Value="Center"></Setter>
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="Control.IsFocused" Value="True">
+                    <Setter Property="Control.Foreground" Value="Red"></Setter>
+                    <Setter Property="TextBox.BorderBrush" Value="LightBlue"></Setter>
+                    <Setter Property="TextBox.BorderThickness" Value="2"></Setter>
+                </Trigger>
+
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
     <Grid Background="Aqua" Opacity="80">
-            
+        <TextBox Style="{StaticResource FontTextBox}">cvcvcvcvcv</TextBox>
     </Grid>
 </UserControl>
