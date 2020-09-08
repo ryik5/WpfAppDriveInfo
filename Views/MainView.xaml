@@ -3,17 +3,54 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp4.Views"
         xmlns:uc="clr-namespace:WpfApp4.Views"
         mc:Ignorable="d"
-        Title="MainView" Height="450" Width="800">
+        Title="{Binding Path=Name}" Height="450" Width="800">
+
+    
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="200" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <uc:LeftPanel  Grid.Column="0" />
-        <uc:RightPanel Grid.Column="1" />
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Collection}"
+                 SelectedItem="{Binding SelectedDrive}" >
+              <ListBox.Resources>
+                <!-- Background of selected item when focussed -->
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                         Color="Black" />
+                <!-- Background of selected item when not focussed -->
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                         Color="Blue" />
+
+            </ListBox.Resources >
+            
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+
+                        <TextBlock  FontSize="18" Text="{Binding   Path=Name, StringFormat=Hi {0} }"  />
+                        <TextBlock  Text="{Binding Path=Type}" />
+                        <TextBlock  Text="{Binding Path=FileSystem}" />
+
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Column="0" Grid.Row="0" DataContext="{Binding SelectedDrive}">
+            <TextBlock  Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        
+        <StackPanel Grid.Column="1" Grid.Row="1" DataContext="{Binding SelectedDrive}">
+            <TextBlock Text="Выбранный элемент"  />
+            <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
     </Grid>
 </Window>

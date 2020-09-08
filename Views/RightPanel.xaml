@@ -6,7 +6,11 @@
              xmlns:local="clr-namespace:WpfApp4.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="PaleGreen" Opacity="70">
-            
+    <Grid  >
+        <StackPanel DataContext="{Binding SelectedDrive}">
+            <TextBox Opacity="70" IsReadOnly="True" BorderThickness="0" Text="{Binding Path=Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Opacity="70" IsReadOnly="True"  BorderThickness="0"  Text="{Binding Type, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+
     </Grid>
 </UserControl>

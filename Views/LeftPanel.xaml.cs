@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp4.Models;
+using WpfApp4.ViewModels;
 
 namespace WpfApp4.Views
 {
@@ -20,9 +22,16 @@ namespace WpfApp4.Views
     /// </summary>
     public partial class LeftPanel : UserControl
     {
+        DriveModel drive;
+
+        DriveViewModels driveList { get; set; }
+
         public LeftPanel()
         {
             InitializeComponent();
+            driveList = new DriveViewModels();
+
+            drivesListBox.ItemsSource = driveList.Collection;
         }
     }
 }

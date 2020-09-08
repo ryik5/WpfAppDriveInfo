@@ -1,18 +1,62 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace WpfApp4.Models
 {
-    public class DriveModel
+    public class DriveModel:INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public DiskType Type { get; set; }
-        public FileSystem FileSystem { get; set; }
-        public int TotalSpace { get; set; }
-        public int FreeSpace { get; set; }
-    }
+        private string name;
+        private DiskType type;
+        private FileSystem fileSystem;
+        private int totalSpace;
+        private int freeSpace;
 
+        public string Name {
+            get { return name; }
+            set
+            {
+                name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+        public DiskType Type {
+            get { return type; }
+            set
+            {
+                type = value;
+                OnPropertyChanged("Type");
+            }
+        }
+        public FileSystem FileSystem {
+            get { return fileSystem; }
+            set
+            {
+                fileSystem = value;
+                OnPropertyChanged("FileSystem");
+            }
+        }
+        public int TotalSpace {
+            get { return totalSpace; }
+            set
+            {
+                totalSpace = value;
+                OnPropertyChanged("TotalSpace");
+            }
+        }
+        public int FreeSpace {
+            get { return freeSpace; }
+            set
+            {
+                freeSpace = value;
+                OnPropertyChanged("FreeSpace");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+    }
 }

@@ -9,24 +9,38 @@
              >
     <UserControl.Resources>
 
-        <Style x:Key="FontTextBox">
+        <Style x:Key="SelectedListBox">
             <Style.Setters>
                 <Setter Property="Control.FontFamily" Value="Calibri"></Setter>
                 <Setter Property="Control.FontSize" Value="15"></Setter>
-                <Setter Property="TextBox.VerticalContentAlignment" Value="Center"></Setter>
+                <Setter Property="Control.VerticalContentAlignment" Value="Center"></Setter>
             </Style.Setters>
             <Style.Triggers>
-                <Trigger Property="Control.IsFocused" Value="True">
-                    <Setter Property="Control.Foreground" Value="Red"></Setter>
-                    <Setter Property="TextBox.BorderBrush" Value="LightBlue"></Setter>
-                    <Setter Property="TextBox.BorderThickness" Value="2"></Setter>
+                <Trigger Property="Control.IsMouseOver" Value="True">
+                    <Setter Property="Control.Foreground" Value="Black"></Setter>
+                    <Setter Property="Control.Background" Value="PaleGreen"></Setter>
+                    <Setter Property="Control.BorderBrush" Value="Black"></Setter>
+                    <Setter Property="Control.BorderThickness" Value="2"></Setter>
                 </Trigger>
-
             </Style.Triggers>
         </Style>
 
     </UserControl.Resources>
-    <Grid Background="Aqua" Opacity="80">
-        <TextBox Style="{StaticResource FontTextBox}">cvcvcvcvcv</TextBox>
+    <Grid Background="PaleGreen" Opacity="80">
+
+        <ListBox x:Name="drivesListBox" SelectedItem="{Binding SelectedDrive}">
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5" >
+                        <TextBlock FontSize="18" Text="{Binding Path=Name}" Style="{StaticResource SelectedListBox}"/>
+                        <TextBlock Text="{Binding Path=Type}" Style="{StaticResource SelectedListBox}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <TextBox >cvcvcvcvcv</TextBox>
+        </ListBox>
+
+
     </Grid>
 </UserControl>
