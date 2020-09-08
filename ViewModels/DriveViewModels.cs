@@ -46,6 +46,5 @@ namespace WpfApp4.ViewModels
                   }));
             }
         }
-
     }
 }

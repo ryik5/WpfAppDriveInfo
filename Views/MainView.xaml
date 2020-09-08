@@ -5,15 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:WpfApp4.Views"
         mc:Ignorable="d"
-        Title="{Binding Path=Name}" Height="450" Width="800">
+        Title="Drive Manager" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="TextBlockListItem" TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="FontFamily" Value="Verdana" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="Black" />
+            </Style.Setters>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <MultiTrigger.Setters>
+                        <Setter Property="Background"   Value="PaleGreen" />
+                    </MultiTrigger.Setters>                    
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ListBlockListItem" TargetType="ListBoxItem">
+            <Style.Setters>
+                <Setter Property="FontFamily" Value="Verdana" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="Black" />
+            </Style.Setters>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsSelected" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <MultiTrigger.Setters>
+                        <Setter Property="Background"   Value="PaleGreen" />
+                    </MultiTrigger.Setters>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 
-    
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="205" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
@@ -21,25 +55,30 @@
 
         <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Collection}"
                  SelectedItem="{Binding SelectedDrive}" >
-              <ListBox.Resources>
-                <!-- Background of selected item when focussed -->
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                         Color="Black" />
-                <!-- Background of selected item when not focussed -->
-                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
-                         Color="Blue" />
 
-            </ListBox.Resources >
-            
-            <ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Value.IsSelected}" Value="True">
+                            <Setter Property="Background" Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate  >
+ 
                 <DataTemplate>
-                    <StackPanel Margin="5">
-
-                        <TextBlock  FontSize="18" Text="{Binding   Path=Name, StringFormat=Hi {0} }"  />
-                        <TextBlock  Text="{Binding Path=Type}" />
-                        <TextBlock  Text="{Binding Path=FileSystem}" />
-
-                    </StackPanel>
+                    <DockPanel LastChildFill="True">
+                        <TextBlock  Style="{StaticResource TextBlockListItem}" Width="190">
+                            <Run FontSize="18" Text="{Binding   Path=Name, StringFormat=Drive ({0}) }" />
+                            <LineBreak/>
+                            <Run Text="{Binding   Path=Type, StringFormat= ({0}) }"  />
+                            <LineBreak/>
+                            <Run Text="{Binding   Path=FileSystem, StringFormat=Drive ({0}) }"/>
+                        </TextBlock>
+                        
+                        <!--TextBlock  Text="{Binding Path=FileSystem}" Style="{StaticResource TextBlockListItem}"/-->
+                    </DockPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
@@ -47,7 +86,7 @@
         <StackPanel Grid.Column="0" Grid.Row="0" DataContext="{Binding SelectedDrive}">
             <TextBlock  Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
-        
+
         <StackPanel Grid.Column="1" Grid.Row="1" DataContext="{Binding SelectedDrive}">
             <TextBlock Text="Выбранный элемент"  />
             <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
