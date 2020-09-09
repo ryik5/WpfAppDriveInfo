@@ -5,13 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:WpfApp4.Views"
         mc:Ignorable="d"
-        Title="Drive Manager" Height="450" Width="800">
+        Title="{Binding Name}" Height="450" Width="800">
     <Window.Resources>
-        <Style x:Key="TextBlockListItem" TargetType="TextBlock">
+        <Style x:Key="TextBlockListItem" TargetType="DockPanel">
             <Style.Setters>
-                <Setter Property="FontFamily" Value="Verdana" />
                 <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Foreground" Value="Black" />
             </Style.Setters>
             <Style.Triggers>
                 <MultiTrigger>
@@ -20,32 +18,20 @@
                     </MultiTrigger.Conditions>
                     <MultiTrigger.Setters>
                         <Setter Property="Background"   Value="PaleGreen" />
-                    </MultiTrigger.Setters>                    
-                </MultiTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="ListBlockListItem" TargetType="ListBoxItem">
-            <Style.Setters>
-                <Setter Property="FontFamily" Value="Verdana" />
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Foreground" Value="Black" />
-            </Style.Setters>
-            <Style.Triggers>
-                <MultiTrigger>
-                    <MultiTrigger.Conditions>
-                        <Condition Property="IsSelected" Value="True"/>
-                    </MultiTrigger.Conditions>
-                    <MultiTrigger.Setters>
-                        <Setter Property="Background"   Value="PaleGreen" />
                     </MultiTrigger.Setters>
                 </MultiTrigger>
             </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
         </Style>
     </Window.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="205" />
+            <ColumnDefinition Width="220" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -56,40 +42,55 @@
         <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Collection}"
                  SelectedItem="{Binding SelectedDrive}" >
 
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Value.IsSelected}" Value="True">
-                            <Setter Property="Background" Value="Red" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate  >
- 
                 <DataTemplate>
-                    <DockPanel LastChildFill="True">
-                        <TextBlock  Style="{StaticResource TextBlockListItem}" Width="190">
-                            <Run FontSize="18" Text="{Binding   Path=Name, StringFormat=Drive ({0}) }" />
-                            <LineBreak/>
-                            <Run Text="{Binding   Path=Type, StringFormat= ({0}) }"  />
-                            <LineBreak/>
-                            <Run Text="{Binding   Path=FileSystem, StringFormat=Drive ({0}) }"/>
-                        </TextBlock>
-                        
-                        <!--TextBlock  Text="{Binding Path=FileSystem}" Style="{StaticResource TextBlockListItem}"/-->
-                    </DockPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"  />
+                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15" />
+                            <RowDefinition Height="10" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Column="0" Grid.Row="0" FontSize="10" Text="{Binding   Path=Name, StringFormat={} {0} }" />
+                        <TextBlock Grid.Column="0" Grid.Row="1" FontSize="8" Text="{Binding   Path=Type, StringFormat= {} {0} }" />
+                        <TextBlock Grid.Column="1" Grid.Row="1" FontSize="8" Text="{Binding   Path=FileSystem, StringFormat= {} {0} }" />
+                        <TextBlock Grid.Column="2" Grid.Row="1" FontSize="8" Text="{Binding   Path=TotalSpace, StringFormat= {} {0} }" />
+                    </Grid>
                 </DataTemplate>
+
             </ListBox.ItemTemplate>
         </ListBox>
 
         <StackPanel Grid.Column="0" Grid.Row="0" DataContext="{Binding SelectedDrive}">
-            <TextBlock  Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Margin="20 0 0 0"   Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="1" DataContext="{Binding SelectedDrive}">
-            <TextBlock Text="Выбранный элемент"  />
-            <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Margin="30 0 0 0"  Grid.Column="0" Grid.Row="0" Text="Label:" />
+                <TextBlock Margin="30 0 0 0" Grid.Column="0" Grid.Row="1" Text="Drive type:" />
+                <TextBlock Margin="30 0 0 0" Grid.Column="0" Grid.Row="2" Text="FileSystem:" />
+                <TextBlock Margin="30 0 0 0" Grid.Column="0" Grid.Row="3" Text="Free/Total space:" />
+                <TextBlock Margin="30 0 0 0" Grid.Column="1" Grid.Row="0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Margin="30 0 0 0" Grid.Column="1" Grid.Row="1" Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Margin="30 0 0 0" Grid.Column="1" Grid.Row="2" Text="{Binding FileSystem, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Margin="30 0 0 0" Grid.Column="1" Grid.Row="3" Text="{Binding TotalSpace, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
         </StackPanel>
     </Grid>
 </Window>

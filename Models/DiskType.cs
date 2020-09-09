@@ -2,6 +2,7 @@
 {
     public enum DiskType
     {
+        Unknown,
         Fixed,
         Removable
     }

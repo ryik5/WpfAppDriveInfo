@@ -2,7 +2,7 @@
 {
     public enum FileSystem
     {
-        Unknow,
+        Unknown,
         FAT16,
         FAT32,
         NTFS

@@ -1,6 +1,11 @@
 ﻿using System.Windows;
 using WpfApp4.ViewModels;
+using System.IO;
 using WpfApp4.Models;
+using System.Management;
+using System;
+using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace WpfApp4.Views
 {
@@ -9,18 +14,39 @@ namespace WpfApp4.Views
     /// </summary>
     public partial class MainView : Window
     {
-        public DriveViewModels driveList;
+        CollectDrives drives = new CollectDrives();
+           DriveViewModels driveList = new DriveViewModels();
 
         public MainView()
         {
             InitializeComponent();
 
-            driveList = new DriveViewModels();
+            drives.GetDrives(ref driveList);
 
-            DriveModel drive = new DriveModel { Name = "c:\\", Type = DiskType.Fixed , FileSystem= FileSystem.NTFS};
-            driveList.Collection.Add(drive);
+
 
             DataContext = driveList;
+
+            Task.Run(() => WatchChanges());
         }
+
+        private void watcher_EventArrived(object sender, EventArrivedEventArgs e)
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                drives.CheckListDrives(ref driveList);
+            });
+        }
+
+        private void WatchChanges()
+        {
+            ManagementEventWatcher watcher = new ManagementEventWatcher();
+            WqlEventQuery query = new WqlEventQuery("SELECT * FROM Win32_VolumeChangeEvent WHERE EventType = 2");
+            watcher.EventArrived += new EventArrivedEventHandler(watcher_EventArrived);
+            watcher.Query = query;
+            watcher.Start();
+            watcher.WaitForNextEvent();
+        }
+
     }
 }

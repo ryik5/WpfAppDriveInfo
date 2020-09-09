@@ -3,15 +3,17 @@ using System.Runtime.CompilerServices;
 
 namespace WpfApp4.Models
 {
-    public class DriveModel:INotifyPropertyChanged
+    public class DriveModel : INotifyPropertyChanged
     {
         private string name;
+        private string caption;
         private DiskType type;
         private FileSystem fileSystem;
-        private int totalSpace;
-        private int freeSpace;
+        private double totalSpace;
+        private double freeSpace;
 
-        public string Name {
+        public string Name
+        {
             get { return name; }
             set
             {
@@ -19,7 +21,17 @@ namespace WpfApp4.Models
                 OnPropertyChanged("Name");
             }
         }
-        public DiskType Type {
+        public string Caption
+        {
+            get { return caption; }
+            set
+            {
+                caption = value;
+                OnPropertyChanged("Caption");
+            }
+        }
+        public DiskType Type
+        {
             get { return type; }
             set
             {
@@ -27,7 +39,8 @@ namespace WpfApp4.Models
                 OnPropertyChanged("Type");
             }
         }
-        public FileSystem FileSystem {
+        public FileSystem FileSystem
+        {
             get { return fileSystem; }
             set
             {
@@ -35,7 +48,8 @@ namespace WpfApp4.Models
                 OnPropertyChanged("FileSystem");
             }
         }
-        public int TotalSpace {
+        public double TotalSpace
+        {
             get { return totalSpace; }
             set
             {
@@ -43,7 +57,8 @@ namespace WpfApp4.Models
                 OnPropertyChanged("TotalSpace");
             }
         }
-        public int FreeSpace {
+        public double FreeSpace
+        {
             get { return freeSpace; }
             set
             {
@@ -57,6 +72,11 @@ namespace WpfApp4.Models
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+
+        public string GetId()
+        {
+            return name + type + fileSystem + totalSpace; 
         }
     }
 }
