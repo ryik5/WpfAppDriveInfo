@@ -4,22 +4,17 @@ using System.IO;
 using System.Linq;
 using WpfApp4.Models;
 
-namespace WpfApp4.ViewModels
+namespace WpfApp4
 {
     public class CollectDrives
     {
-
-        public void GetDrives(ref DriveViewModels drives)
+        IList<DriveModel> driveList;
+        public IList<DriveModel> GetDrives( )
         {
+            driveList = new List<DriveModel>();
             DriveModel drive;
-            List<string> uniqDrives = new List<string>();
 
             DriveInfo[] allDrives = DriveInfo.GetDrives();
-
-            if (drives?.Collection?.Count > 0)
-            {
-                uniqDrives = drives.GetUniqDrives();
-            }
 
             foreach (DriveInfo d in allDrives)
             {
@@ -27,42 +22,11 @@ namespace WpfApp4.ViewModels
                 {
                     drive = GetDriveInfo(d);
 
-                    drives.Collection.Add(drive);
+                    driveList.Add(drive);
                 }
             }
-        }
 
-        public void CheckListDrives(ref DriveViewModels drives)
-        {
-            DriveModel drive;
-            List<string> uniqDrives = new List<string>();
-
-            DriveInfo[] allDrives = DriveInfo.GetDrives();
-
-            if (drives?.Collection?.Count > 0)
-            {
-                uniqDrives = drives.GetUniqDrives();
-            }
-
-            foreach (DriveInfo d in allDrives)
-            {
-                if (d.IsReady)
-                {
-                    drive = GetDriveInfo(d);
-                    if (drives?.Collection?.Count > 0)
-                    {
-
-                        if (!drives.Collection.Any(p => p.GetId() == drive.GetId()))
-                        {
-                            drives.Collection.Add(drive);
-                        }
-                        else
-                        {
-                            drives.Collection.Add(drives.Collection.Where(i => i.GetId() == drive.GetId()).Single());
-                        }
-                    }
-                }
-            }
+            return driveList;
         }
 
         private DriveModel GetDriveInfo(DriveInfo d)

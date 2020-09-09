@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace WpfApp4.Models
 {
-    public class DriveModel : INotifyPropertyChanged
+    public class DriveModel : INotifyPropertyChanged, IEquatable<DriveModel>
     {
         private string name;
         private string caption;
@@ -74,9 +75,31 @@ namespace WpfApp4.Models
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
+
         public string GetId()
         {
             return name + type + fileSystem + totalSpace; 
+        }
+
+        public override string ToString()
+        {
+            return name + type + fileSystem + totalSpace; 
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            DriveModel objAsPart = obj as DriveModel;
+            if (objAsPart == null) return false;
+            else return Equals(objAsPart);
+        }
+        public override int GetHashCode()
+        {
+            return GetId().GetHashCode();
+        }
+        public bool Equals(DriveModel other)
+        {
+            if (other == null) return false;
+            return (this.GetId().Equals(other.GetId()));
         }
     }
 }

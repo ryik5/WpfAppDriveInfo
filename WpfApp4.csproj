@@ -55,7 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\CollectDrives.cs" />
+    <Compile Include="BL\CollectDrives.cs" />
     <Compile Include="ViewModels\DriveViewModels.cs" />
     <Compile Include="Views\LeftPanel.xaml.cs">
       <DependentUpon>LeftPanel.xaml</DependentUpon>
