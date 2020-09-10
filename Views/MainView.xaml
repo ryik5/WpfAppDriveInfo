@@ -4,9 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:WpfApp4.Views"
+        xmlns:local="clr-namespace:WpfApp4.BL"
         mc:Ignorable="d"
-        Title="{Binding Name}" Height="450" Width="800">
+        Title="{Binding MyTitle}"
+        Name="AppTitle"
+        Height="450" Width="800">
     <Window.Resources>
+        <local:SizeConvertor x:Key="mySizeConverter" />
+        <local:SizeAllInfoConvertor x:Key="mySizesConverter" />
+        <local:BrushColorConverter x:Key="myTextBlockColorConverter" />
+
+        <Style x:Key="WindowTitle" TargetType="Window">
+            <Setter Property="Title" Value="sdsdsd" />
+        </Style>
         <Style x:Key="TextBlockListItem" TargetType="DockPanel">
             <Style.Setters>
                 <Setter Property="Background" Value="Transparent" />
@@ -22,10 +32,47 @@
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="{x:Type ListBoxItem}">
+        <Style x:Key="{x:Type ListBoxItem}" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="SnapsToDevicePixels"
+          Value="true" />
+            <Setter Property="OverridesDefaultStyle"
+          Value="true" />
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="Border" Padding="2" SnapsToDevicePixels="true">
+                        <Border.Background>
+                            <SolidColorBrush Color="Transparent" />
+                        </Border.Background>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="Unselected" />
+                                    <VisualState x:Name="Selected">
+                                        
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                Storyboard.TargetProperty="(Panel.Background). (SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="PaleGreen" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SelectedUnfocused">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="Transparent" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
 
@@ -39,34 +86,36 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Collection}"
-                 SelectedItem="{Binding SelectedDrive}" >
+        <ListBox Grid.Column="0" Grid.Row="1" 
+                 ItemsSource="{Binding Collection}"
+                 SelectedItem="{Binding SelectedDrive}">
 
-            <ListBox.ItemTemplate  >
+            <ListBox.ItemTemplate>                
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60"  />
-                            <ColumnDefinition Width="40" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="15" />
-                            <RowDefinition Height="10" />
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Column="0" Grid.Row="0" FontSize="10" Text="{Binding   Path=Name, StringFormat={} {0} }" />
-                        <TextBlock Grid.Column="0" Grid.Row="1" FontSize="8" Text="{Binding   Path=Type, StringFormat= {} {0} }" />
-                        <TextBlock Grid.Column="1" Grid.Row="1" FontSize="8" Text="{Binding   Path=FileSystem, StringFormat= {} {0} }" />
-                        <TextBlock Grid.Column="2" Grid.Row="1" FontSize="8" Text="{Binding   Path=TotalSpace, StringFormat= {} {0} }" />
-                    </Grid>
+                        <TextBlock  Grid.Column="0" Grid.Row="0" FontSize="12" Text="{Binding   Path=Name}" >
+                            
+                        </TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="1" FontSize="8" Text="{Binding   Path=Type}" />
+                        <TextBlock Grid.Column="1" Grid.Row="1" FontSize="8" Text="{Binding   Path=FileSystem}" />
+                        <TextBlock Grid.Column="2" Grid.Row="1" FontSize="8" Text="{Binding   Path=TotalSpace, StringFormat= {} {0},Converter={StaticResource mySizeConverter} }" />
+                    </Grid>                   
                 </DataTemplate>
-
             </ListBox.ItemTemplate>
         </ListBox>
 
         <StackPanel Grid.Column="0" Grid.Row="0" DataContext="{Binding SelectedDrive}">
-            <TextBlock Margin="20 0 0 0"   Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Margin="20 0 0 0"   Text="{Binding   Path=Name, UpdateSourceTrigger=PropertyChanged, StringFormat=Drive info ({0})}" />
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="1" DataContext="{Binding SelectedDrive}">
@@ -87,9 +136,19 @@
                 <TextBlock Margin="30 0 0 0" Grid.Column="0" Grid.Row="2" Text="FileSystem:" />
                 <TextBlock Margin="30 0 0 0" Grid.Column="0" Grid.Row="3" Text="Free/Total space:" />
                 <TextBlock Margin="30 0 0 0" Grid.Column="1" Grid.Row="0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBlock Margin="30 0 0 0" Grid.Column="1" Grid.Row="1" Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Margin="30 0 0 0" Grid.Column="1" Grid.Row="1" 
+                           Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}"
+                           Foreground="{Binding Type,  Mode=OneWay, Converter = {StaticResource myTextBlockColorConverter}}"/>
                 <TextBlock Margin="30 0 0 0" Grid.Column="1" Grid.Row="2" Text="{Binding FileSystem, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBlock Margin="30 0 0 0" Grid.Column="1" Grid.Row="3" Text="{Binding TotalSpace, UpdateSourceTrigger=PropertyChanged}" />
+
+                <TextBlock Margin="30 0 0 0" Grid.Column="1" Grid.Row="3">
+                    <TextBlock.Text>
+                        <MultiBinding  Converter="{StaticResource mySizesConverter}">
+                            <Binding Path="FreeSpace"/>
+                            <Binding Path="TotalSpace"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
             </Grid>
         </StackPanel>
     </Grid>

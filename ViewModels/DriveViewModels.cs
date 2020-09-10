@@ -6,6 +6,7 @@ using System.Linq;
 using System.Management;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows;
 using WpfApp4.Models;
 
 namespace WpfApp4
@@ -45,54 +46,44 @@ namespace WpfApp4
         private void watcher_EventArrived(object sender, EventArrivedEventArgs e)
         {
             IList<DriveModel> currentList = drives.GetDrives();
-            var names=new HashSet<string>(currentList.Select(x => x.GetId()));
+            IList<DriveModel> previousList = Collection.ToList();
 
             App.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    if (currentList.Count > Collection.Count)
+                    if (currentList.Count > previousList.Count)
                     {
-                        foreach (var driveCurrentList in currentList)
+                        foreach (var drive in currentList)
                         {
-                            if (!Collection.Any(p => p.GetId().Equals(driveCurrentList.GetId())))
+                            if (!Collection.Any(p => p.ToString().Equals(drive.ToString())))
                             {
-                                Collection.Add(driveCurrentList);
+                                Collection.Add(drive);
                             }
                         }
                     }
                     else
                     {
-                        //foreach( var book in e.OldItems.OfType<Book>().Select( v => new BookViewModel( v ) ) ) {
-                        //   this.Remove(book);                    }
-
-                        //foreach (var book in e.OldItems.OfType<Book>())
-                        //{
-                        //    BookViewModel tempBVM = this.Where(x => x.Book.name == book.name &&
-                        //       c.Book.author == book.author).FirstOrDefault();
-                        //    if (tempBVM != null)
-                        //    {
-                        //        this.Remove(tempBVM);
-                        //    }
-                        //}
-
-                        Collection.Remove(x => !names.Contains(x.GetId()));
+                        foreach (var drive in previousList)
+                        {
+                            if (!currentList.Any(p => p.ToString().Equals(drive.ToString())))
+                            {
+                                Collection.Remove(drive);
+                            }
+                        }
                     }
-
                 });
 
         }
 
+        ManagementEventWatcher watcher = new ManagementEventWatcher();
         private void WatchChanges()
         {
-            ManagementEventWatcher watcher = new ManagementEventWatcher();
-            WqlEventQuery query = new WqlEventQuery("SELECT * FROM Win32_VolumeChangeEvent WHERE EventType = 2");
+            watcher = new ManagementEventWatcher();
+            WqlEventQuery query = new WqlEventQuery("SELECT * FROM Win32_VolumeChangeEvent WHERE EventType = 2 OR EventType = 3");
             watcher.EventArrived += new EventArrivedEventHandler(watcher_EventArrived);
             watcher.Query = query;
             watcher.Start();
             watcher.WaitForNextEvent();
         }
-
-
-
 
 
 

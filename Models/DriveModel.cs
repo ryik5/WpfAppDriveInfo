@@ -76,15 +76,11 @@ namespace WpfApp4.Models
         }
 
 
-        public string GetId()
-        {
-            return name + type + fileSystem + totalSpace; 
-        }
-
         public override string ToString()
         {
-            return name + type + fileSystem + totalSpace; 
+            return name + type + fileSystem + totalSpace;
         }
+
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
@@ -94,12 +90,12 @@ namespace WpfApp4.Models
         }
         public override int GetHashCode()
         {
-            return GetId().GetHashCode();
+            return ToString().GetHashCode();
         }
         public bool Equals(DriveModel other)
         {
             if (other == null) return false;
-            return (this.GetId().Equals(other.GetId()));
+            return (this.ToString().Equals(other.ToString()));
         }
     }
 }

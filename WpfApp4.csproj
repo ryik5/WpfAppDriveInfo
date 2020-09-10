@@ -55,30 +55,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BL\BrushColorConverter.cs" />
     <Compile Include="BL\CollectDrives.cs" />
+    <Compile Include="BL\SizeAllInfoConvertor.cs" />
+    <Compile Include="BL\SizeConvertor.cs" />
     <Compile Include="ViewModels\DriveViewModels.cs" />
-    <Compile Include="Views\LeftPanel.xaml.cs">
-      <DependentUpon>LeftPanel.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RightPanel.xaml.cs">
-      <DependentUpon>RightPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\LeftPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MainView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\RightPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
