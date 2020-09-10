@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using WpfApp4.Models;
 
 namespace WpfApp4
@@ -68,6 +67,7 @@ namespace WpfApp4
                 return FileSystem.Unknown;
             }
         }
+      
         private DiskType GetDriveType(string type)
         {
             if (type?.Length == 0)
@@ -87,6 +87,5 @@ namespace WpfApp4
                 return DiskType.Unknown;
             }
         }
-
     }
 }

@@ -39,5 +39,4 @@ namespace WpfApp4.BL
             throw new NotImplementedException();
         }
     }
-
 }

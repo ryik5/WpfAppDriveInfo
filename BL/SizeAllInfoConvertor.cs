@@ -10,7 +10,7 @@ namespace WpfApp4.BL
         public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
         {
             string result = "";
-            double val = 0;
+            double val;
             foreach (var data in value)
             {
                 if (data != null)

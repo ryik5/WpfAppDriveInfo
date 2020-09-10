@@ -6,7 +6,6 @@ using System.Linq;
 using System.Management;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows;
 using WpfApp4.Models;
 
 namespace WpfApp4
@@ -17,7 +16,7 @@ namespace WpfApp4
         CollectDrives drives = new CollectDrives();
 
         public ObservableCollection<DriveModel> Collection { get; set; }
-        
+
         public DriveModel SelectedDrive
         {
             get { return selectedDrive; }
@@ -27,7 +26,6 @@ namespace WpfApp4
                 OnPropertyChanged("SelectedDrive");
             }
         }
-
 
         public DriveViewModels()
         {
@@ -42,6 +40,16 @@ namespace WpfApp4
         }
 
 
+        ManagementEventWatcher watcher = new ManagementEventWatcher();
+        private void WatchChanges()
+        {
+            watcher = new ManagementEventWatcher();
+            WqlEventQuery query = new WqlEventQuery("SELECT * FROM Win32_VolumeChangeEvent WHERE EventType = 2 OR EventType = 3");
+            watcher.EventArrived += new EventArrivedEventHandler(watcher_EventArrived);
+            watcher.Query = query;
+            watcher.Start();
+            watcher.WaitForNextEvent();
+        }
 
         private void watcher_EventArrived(object sender, EventArrivedEventArgs e)
         {
@@ -71,20 +79,7 @@ namespace WpfApp4
                         }
                     }
                 });
-
         }
-
-        ManagementEventWatcher watcher = new ManagementEventWatcher();
-        private void WatchChanges()
-        {
-            watcher = new ManagementEventWatcher();
-            WqlEventQuery query = new WqlEventQuery("SELECT * FROM Win32_VolumeChangeEvent WHERE EventType = 2 OR EventType = 3");
-            watcher.EventArrived += new EventArrivedEventHandler(watcher_EventArrived);
-            watcher.Query = query;
-            watcher.Start();
-            watcher.WaitForNextEvent();
-        }
-
 
 
         public event PropertyChangedEventHandler PropertyChanged;

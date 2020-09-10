@@ -5,12 +5,12 @@ using System.Windows.Data;
 
 namespace WpfApp4.BL
 {
-   public class SizeConvertor : IValueConverter
+    public class SizeConvertor : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             double data = (double)value;
-            string result = "";
+            string result;
 
             switch (data)
             {
@@ -30,5 +30,4 @@ namespace WpfApp4.BL
             return DependencyProperty.UnsetValue;
         }
     }
-
 }

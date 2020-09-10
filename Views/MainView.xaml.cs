@@ -25,7 +25,6 @@ namespace WpfApp4.Views
             set { SetValue(MyTitleProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for MyTitle.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MyTitleProperty =
             DependencyProperty.Register("MyTitle", typeof(string), typeof(MainView), new UIPropertyMetadata(null));
 
@@ -36,6 +35,5 @@ namespace WpfApp4.Views
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }    
 }

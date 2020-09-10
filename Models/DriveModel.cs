@@ -88,10 +88,12 @@ namespace WpfApp4.Models
             if (objAsPart == null) return false;
             else return Equals(objAsPart);
         }
+
         public override int GetHashCode()
         {
             return ToString().GetHashCode();
         }
+
         public bool Equals(DriveModel other)
         {
             if (other == null) return false;
