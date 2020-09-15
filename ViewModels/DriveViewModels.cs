@@ -36,19 +36,19 @@ namespace WpfApp4
                 Collection.Add(drive);
             }
 
-            Task.Run(() => WatchChanges());
+            ManagementEventWatcher watcher = new ManagementEventWatcher();
+            Task.Run(() => WatchChanges(watcher));
         }
 
 
-        ManagementEventWatcher watcher = new ManagementEventWatcher();
-        private void WatchChanges()
+        private ManagementEventWatcher WatchChanges(ManagementEventWatcher watcher)
         {
-            watcher = new ManagementEventWatcher();
             WqlEventQuery query = new WqlEventQuery("SELECT * FROM Win32_VolumeChangeEvent WHERE EventType = 2 OR EventType = 3");
             watcher.EventArrived += new EventArrivedEventHandler(watcher_EventArrived);
             watcher.Query = query;
             watcher.Start();
             watcher.WaitForNextEvent();
+            return watcher;
         }
 
         private void watcher_EventArrived(object sender, EventArrivedEventArgs e)
