@@ -10,10 +10,11 @@ using WpfApp4.Models;
 
 namespace WpfApp4
 {
-    public class DriveViewModels : INotifyPropertyChanged
+    public class DriveViewModels : INotifyPropertyChanged, IDisposable
     {
+        private readonly ManagementEventWatcher watcher;
         private DriveModel selectedDrive;
-        CollectDrives drives = new CollectDrives();
+        private readonly CollectDrives drives = new CollectDrives();
 
         public ObservableCollection<DriveModel> Collection { get; set; }
 
@@ -24,7 +25,6 @@ namespace WpfApp4
             {
                 selectedDrive = value;
                 OnPropertyChanged("SelectedDrive");
-                OnPropertyChanged("MyTitle");
             }
         }
 
@@ -37,7 +37,7 @@ namespace WpfApp4
                 Collection.Add(drive);
             }
 
-            ManagementEventWatcher watcher = new ManagementEventWatcher();
+            watcher = new ManagementEventWatcher();
             Task.Run(() => WatchChanges(watcher));
         }
 
@@ -85,8 +85,46 @@ namespace WpfApp4
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+
+                    watcher?.Stop();
+                    watcher?.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~DriveViewModels()
+        // {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        void IDisposable.Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

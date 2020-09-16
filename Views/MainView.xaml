@@ -12,7 +12,6 @@
         <local:SizeConvertor x:Key="mySizeConverter" />
         <local:SizeAllInfoConvertor x:Key="mySizesConverter" />
         <local:BrushColorConverter x:Key="myTextBlockColorConverter" />
-
     </Window.Resources>
 
     <Grid>

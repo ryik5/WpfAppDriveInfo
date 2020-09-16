@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 
 namespace WpfApp4.Views
@@ -9,7 +8,7 @@ namespace WpfApp4.Views
     /// </summary>
     public partial class MainView : Window
     {
-        DriveViewModels driveList = new DriveViewModels();
+        readonly DriveViewModels driveList = new DriveViewModels();
 
         public MainView()
         {
