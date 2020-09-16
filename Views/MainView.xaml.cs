@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 
 namespace WpfApp4.Views
@@ -13,27 +14,18 @@ namespace WpfApp4.Views
         public MainView()
         {
             InitializeComponent();
+
             
+            // Определяем uri на файл с ресурсами стилей
+            var uri = new Uri("styles.xaml", UriKind.Relative);
+            // загружаем словарь ресурсов
+            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+            // очищаем коллекцию ресурсов приложения
+            Application.Current.Resources.Clear();
+            // добавляем загруженный словарь ресурсов
+            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+
             DataContext = driveList;
-            MyTitle =  "WPF";
-        }
-
-
-        public string MyTitle
-        {
-            get { return (string)GetValue(MyTitleProperty); }
-            set { SetValue(MyTitleProperty, value); }
-        }
-
-        public static readonly DependencyProperty MyTitleProperty =
-            DependencyProperty.Register("MyTitle", typeof(string), typeof(MainView), new UIPropertyMetadata(null));
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }    
 }

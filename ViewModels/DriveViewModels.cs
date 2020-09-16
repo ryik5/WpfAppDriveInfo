@@ -24,6 +24,7 @@ namespace WpfApp4
             {
                 selectedDrive = value;
                 OnPropertyChanged("SelectedDrive");
+                OnPropertyChanged("MyTitle");
             }
         }
 
@@ -39,7 +40,6 @@ namespace WpfApp4
             ManagementEventWatcher watcher = new ManagementEventWatcher();
             Task.Run(() => WatchChanges(watcher));
         }
-
 
         private ManagementEventWatcher WatchChanges(ManagementEventWatcher watcher)
         {
