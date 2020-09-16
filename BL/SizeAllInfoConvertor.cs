@@ -28,9 +28,9 @@ namespace WpfApp4.BL
                             break;
                         default:
                             if (result.Length > 0)
-                                result += "/" + (val / 1000 / 1000 / 1000).ToString("0.00 GB");
+                                result += "/" + (val / 1024 / 1024 / 1024).ToString("0.00 GB");
                             else
-                                result += (val / 1000 / 1000 / 1000).ToString("0.00 GB");
+                                result += (val / 1024 / 1024 / 1024).ToString("0.00 GB");
                             break;
                     }
                 }
