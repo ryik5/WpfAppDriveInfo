@@ -14,7 +14,7 @@ namespace WpfApp4.Views
         {
             InitializeComponent();
 
-            
+
             // Определяем uri на файл с ресурсами стилей
             var uri = new Uri("styles.xaml", UriKind.Relative);
             // загружаем словарь ресурсов
@@ -26,5 +26,5 @@ namespace WpfApp4.Views
 
             DataContext = driveList;
         }
-    }    
+    }
 }
