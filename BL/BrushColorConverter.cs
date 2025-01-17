@@ -10,12 +10,12 @@ namespace WpfApp4.BL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Color result = Colors.Black;
+            var result = Colors.Black;
 
             if (value is null)
                 return new SolidColorBrush(result);
 
-            DiskType diskType = DiskType.Unknown;
+            var diskType = DiskType.Unknown;
             try { diskType = (DiskType)value; } catch { }
 
             switch (diskType)

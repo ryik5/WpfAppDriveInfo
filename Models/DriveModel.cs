@@ -83,10 +83,14 @@ namespace WpfApp4.Models
 
         public override bool Equals(object obj)
         {
-            if (obj == null) return false;
-            DriveModel objAsPart = obj as DriveModel;
-            if (objAsPart == null) return false;
-            else return Equals(objAsPart);
+            if (obj == null)
+                return false;
+
+            var objAsPart = obj as DriveModel;
+            if (objAsPart == null) 
+                return false;
+            else 
+                return Equals(objAsPart);
         }
 
         public override int GetHashCode()

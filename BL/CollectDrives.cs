@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using WpfApp4.Models;
 
@@ -8,7 +7,7 @@ namespace WpfApp4
     public class CollectDrives
     {
         IList<DriveModel> driveList;
-        public IList<DriveModel> GetDrives( )
+        public IList<DriveModel> GetDrives()
         {
             driveList = new List<DriveModel>();
             DriveModel drive;
@@ -67,7 +66,7 @@ namespace WpfApp4
                 return FileSystem.Unknown;
             }
         }
-      
+
         private DiskType GetDriveType(string type)
         {
             if (type?.Length == 0)

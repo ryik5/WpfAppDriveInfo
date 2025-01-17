@@ -16,11 +16,17 @@ namespace WpfApp4
         private DriveModel selectedDrive;
         private readonly CollectDrives drives = new CollectDrives();
 
-        public ObservableCollection<DriveModel> Collection { get; set; }
+        public ObservableCollection<DriveModel> Collection
+        {
+            get; set;
+        }
 
         public DriveModel SelectedDrive
         {
-            get { return selectedDrive; }
+            get
+            {
+                return selectedDrive;
+            }
             set
             {
                 selectedDrive = value;
@@ -56,7 +62,7 @@ namespace WpfApp4
             IList<DriveModel> currentList = drives.GetDrives();
             IList<DriveModel> previousList = Collection.ToList();
 
-            App.Current.Dispatcher.Invoke((Action)delegate
+            App.Current.Dispatcher.Invoke(delegate
                 {
                     if (currentList.Count > previousList.Count)
                     {
