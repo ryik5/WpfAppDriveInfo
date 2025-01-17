@@ -87,7 +87,18 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
-
+.vs
+.vscode
+*.suo
+*.pdb
+*.exe
+*.dll
+*.xml
+*.vcxproj.user
+*.csproj.user
+*.DotSettings.user
+csharp-build
+launchSettings.json
 # Chutzpah Test files
 _Chutzpah*
 
